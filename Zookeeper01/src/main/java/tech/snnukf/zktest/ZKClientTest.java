@@ -1,6 +1,7 @@
-package tech.snnukf.zk;
+package tech.snnukf.zktest;
 
 import org.apache.zookeeper.*;
+import org.apache.zookeeper.data.Stat;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,4 +52,23 @@ public class ZKClientTest {
                 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
         System.out.println(nodeCreated);
     }
+
+    // 获取子节点
+    @Test
+    public void getChildren() throws Exception {
+        List<String> children = zkClient.getChildren("/", true);
+        for (String child : children) {
+            System.out.println(child);
+        }
+        // 延时阻塞
+        Thread.sleep(Long.MAX_VALUE);
+    }
+
+    // 判断 znode 是否存在
+    @Test
+    public void exist() throws Exception {
+        Stat stat = zkClient.exists("/people", false);
+        System.out.println(stat == null ? "not exist" : "exist");
+    }
+
 }
